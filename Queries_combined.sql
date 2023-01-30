@@ -127,4 +127,63 @@ GROUP BY activitydate
 ORDER BY activitydate
 	)
 
+--11.Were users consistent throughout the month or did they increase or decrease sleep during the month?
+--Created Table named "sleep_avg_by_date"
+Create Table sleep_avg_by_date AS (
+SELECT *,
+(avg_min_asleep/60) AS avg_hour_asleep
+FROM (
+ SELECT DISTINCT sleepday,      
+ COUNT(sleepday) AS logs,          
+ SUM(totalminutesasleep) AS total_min_asleep,      
+ AVG(totalminutesasleep) AS avg_min_asleep     
+ FROM sleep_day     
+ GROUP BY sleepday  
+ ORDER BY sleepday ) AS subquery
+	)
 
+--12.Any trends between activity and sleep within the the month?
+--Created Table named "merged_avg_sleep_activity_date"
+Create table merged_avg_sleep_activity_date as (
+SELECT sleep_avg_by_date.sleepday, avg_steps, avg_total_distance, avg_very_act_min, avg_fairly_act_min, avg_light_min, avg_sedentary_min, avg_calories_burned, avg_min_asleep, avg_hour_asleep
+FROM avg_activity_by_dates
+JOIN sleep_avg_by_date ON avg_activity_by_dates.activitydate = sleep_avg_by_date.sleepday
+ORDER BY sleepday
+	)
+
+--13.What was the average weight and BMI and how often did users log data?
+--Created Table named "weight_avg"
+Create table weight_avg AS (
+SELECT 
+ DISTINCT Id,
+ COUNT(Id) AS total_logs,
+ AVG(weightpounds) AS avg_weight_lbs,
+ AVG(bmi) AS avg_BMI
+FROM weight_log
+GROUP BY Id
+ORDER BY Id
+	)
+
+--14. Created table to make visualization for how steps vary by week
+Create Table avg_step_day AS (
+SELECT day_week, avg_steps                     
+FROM avg_activity_by_day
+GROUP BY day_week, avg_step
+)
+
+--15.Any differences between users who track weight, sleep, and activity?
+--Created Table named "weight_avg"
+Create Table overlap_id_avg_logs AS (
+SELECT DISTINCT sleep_avg_by_id.Id,          
+ logs AS activity_logs,         
+ sleep_avg_by_id.total_logs AS sleep_logs,           
+ weight_avg.total_logged AS weight_logs,         
+ avg_steps, avg_total_distance, avg_very_min,
+ avg_fair_min, avg_light_min, avg_sedentary_min,
+ avg_calories_burned, avg_min_asleep         
+ FROM activity_avg_by_id         
+ JOIN sleep_avg_by_id ON sleep_avg_by_id.Id = activity_avg_by_id.Id            
+ JOIN weight_avg ON weight_avg.Id = sleep_avg_by_id.Id     
+ WHERE sleep_avg_by_id.Id = weight_avg.Id           
+ ORDER BY Id
+	)
