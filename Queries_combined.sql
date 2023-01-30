@@ -187,3 +187,35 @@ SELECT DISTINCT sleep_avg_by_id.Id,
  WHERE sleep_avg_by_id.Id = weight_avg.Id           
  ORDER BY Id
 	)
+
+--16.Any differences between users who track weight, sleep, and activity?
+--Created  temp table named "overlap_daily_avg"
+Create TEMP TABLE overlap_daily_avg AS (
+SELECT to_char(activitydate, 'Day') AS day_week,
+ AVG(totalsteps) AS avg_steps,   
+ AVG(totaldistance) AS avg_total_distance,     
+ AVG(veryactiveminutes) AS avg_very_min,  
+ AVG(fairlyactiveminutes) AS avg_fair_min,    
+ AVG(lightlyactiveminutes) AS avg_light_min,  
+ AVG(sedentaryminutes) AS avg_sedentary_min,   
+ AVG(calories) AS avg_calories_burned
+FROM daily_activity
+JOIN overlap_id_avg_logs ON overlap_id_avg_logs.overlap_id = daily_activity.Id
+WHERE daily_activity.Id = overlap_id_avg_logs.overlap_id
+GROUP BY day_week
+	)
+--Created temp table named "overlap_sleep_avg"
+Create TEMP TABLE overlap_sleep_avg AS (
+SELECT to_char(sleepday, 'Day') AS day_week,
+ AVG(totalminutesasleep) AS avg_min_asleep
+FROM sleep_day 
+JOIN overlap_id_avg_logs ON overlap_id_avg_logs.overlap_id = sleep_day.Id
+WHERE sleep_day.Id = overlap_id_avg_logs.overlap_id
+GROUP BY day_week
+	)
+--Created table named "Overlap_id_avg_by_day"
+Create Table Overlap_id_avg_by_day AS (
+SELECT overlap_daily_avg.*, avg_min_asleep               
+FROM overlap_daily_avg               
+JOIN overlap_sleep_avg ON overlap_daily_avg.day_week = overlap_sleep_avg.day_week
+)
