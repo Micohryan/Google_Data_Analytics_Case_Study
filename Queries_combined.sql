@@ -83,4 +83,48 @@ FROM daily_activity
 GROUP BY day_week
 	)
 
+--8.Are users getting a good amount of sleep throughout the week and are there days where users get less sleep?
+--Created Table named "Avg_sleep_by_day"
+Create TABLE Avg_sleep_by_day AS (
+SELECT *,
+(avg_min_asleep/60) AS avg_hour_asleep 
+FROM (
+SELECT to_char(sleepday, 'Day') AS day_week, Count(*) as number_of_day,
+ AVG(totalminutesasleep) AS avg_min_asleep
+FROM sleep_day
+GROUP BY day_week
+	) as sub
+	)
+
+--9.Any trends between activity and sleep within the days of the week?
+--Created Table named "merged_avg_sleep_activity_day"
+Create TABLE merged_avg_sleep_activity_day AS (
+SELECT 
+ avg_sleep_by_day.day_week,
+ avg_sleep_by_day.number_of_day AS sleep_logs,
+ avg_activity_by_day.logs AS activity_logs,
+ avg_min_asleep,
+ avg_hour_asleep, avg_very_act_min,
+ avg_fairly_act_min, avg_lightly_act_min, avg_sedentary_min
+FROM avg_sleep_by_day
+JOIN avg_activity_by_day ON avg_activity_by_day.day_week = avg_sleep_by_day.day_week
+	)
+
+--10.Were users consistent throughout the month or did they increase or decrease activity during the month?
+--Created Table named "avg_activity_by_dates"
+Create table avg_activity_by_dates AS (
+SELECT DISTINCT activitydate,
+ COUNT(Id) AS logs,
+ AVG(totalsteps) AS avg_steps,
+ AVG(totaldistance) AS avg_total_distance, 
+ AVG(veryactiveminutes) AS avg_very_act_min,
+ AVG(fairlyactiveminutes) AS avg_fairly_act_min,
+ AVG(lightlyactiveminutes) AS avg_light_min,
+ AVG(sedentaryminutes) AS avg_sedentary_min,
+ AVG(Calories) AS avg_calories_burned
+FROM daily_activity
+GROUP BY activitydate
+ORDER BY activitydate
+	)
+
 
