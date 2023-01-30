@@ -188,7 +188,7 @@ SELECT DISTINCT sleep_avg_by_id.Id,
  ORDER BY Id
 	)
 
---16.Any differences between users who track weight, sleep, and activity?
+--16.Any differences between users who track weight, sleep, and activity during the days of the week?
 --Created  temp table named "overlap_daily_avg"
 Create TEMP TABLE overlap_daily_avg AS (
 SELECT to_char(activitydate, 'Day') AS day_week,
