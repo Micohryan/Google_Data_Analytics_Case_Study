@@ -1,7 +1,7 @@
 # Google_Data_Analytics_Case_Study
 
 ## Intro
-Capstone Project for Google Analytics Case Study
+Capstone Project for Google Analytics Certificate
 
 ## Business Problem
 The business task is to analyze smart device usage in order to find trends and insights on how other non-Bellbeat users use other smart devices. I will then apply these insights to one of the Bellbeat Products. I will then need to present my findings to the Bellbeat Executive team and marketing team on general consumer trends, how these trends apply to Bellbeat's marketing strategy, and how these trends are applicable to Bellbeat products.
