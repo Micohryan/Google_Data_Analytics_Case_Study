@@ -24,6 +24,6 @@ Here sleep averages around 7 hours of sleep.
 Here sleep did not vary throughout the day. 
 
  ## 4. Weight
-
 ![Total Logs by ID Weight Tracking](https://user-images.githubusercontent.com/112991083/216459998-b389e601-2b41-44a6-8a3c-d6102db66c5b.png)
+
 Here only two users were tracking their weight consistently.
