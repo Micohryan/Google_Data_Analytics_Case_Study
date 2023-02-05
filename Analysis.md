@@ -1,6 +1,10 @@
 # Analysis (Trends Summarized)
  Key findings about user trends:
-
+ 
+ ![Amount of Users for each Fitbit Feature](https://user-images.githubusercontent.com/112991083/216727963-c141b1b6-66ae-4fd4-9d62-f4aaa6b95978.png)
+ 
+ The most used Feature type used in Fitbit devices was the activity feature with all 33 users of the survey using it initially. Next is the Sleep feaature with only 24 users or 73% of users using the sleep feature and finally the least used feature the weight feature with only 8 users or 24% of users used the weight features initially.
+ 
  ## 1. Activity
 ![Average Active Minute Per Day](https://user-images.githubusercontent.com/112991083/216456995-eb67aabd-d791-4667-b4d4-077b13d3ed46.png)
 
